@@ -9,8 +9,20 @@ function main() {
                 const markerSrc = getMarkerSrc(player);
                 marker.setAttribute("src", markerSrc);
                 gameCell.appendChild(marker);
-                e.target.setAttribute("class", "filled");
+                e.target.setAttribute("class", player);
                 player = changePlayer(player);
+                // make a random move by the computer
+                for (const gameCell of gameCells) {
+                    if (gameCell.getAttribute("class") === "empty") {
+                        const marker = document.createElement("img");
+                        const markerSrc = getMarkerSrc(player);
+                        marker.setAttribute("src", markerSrc);
+                        gameCell.appendChild(marker);
+                        gameCell.setAttribute("class", player);
+                        player = changePlayer(player);
+                        break;
+                    }
+                }
             }
         })
     }
