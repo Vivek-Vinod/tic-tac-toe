@@ -31,7 +31,7 @@ function makeMove(e) {
         e.target.appendChild(marker);
         e.target.setAttribute("class", player);
         if (isWin()) {
-            result.textContent = `${player} wins the game!`;
+            result.textContent = "You won the game!";
             setGameOver();
             return;
         }
@@ -45,7 +45,7 @@ function makeMove(e) {
         // make a random move by the computer
         makeRandomMove();
         if (isWin()) {
-            result.textContent = `${player} wins the game!`;
+            result.textContent = "Computer wins the game!";
             setGameOver();
             return;
         }

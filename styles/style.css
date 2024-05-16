@@ -1,39 +1,70 @@
 body {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    background-color: #DCFFB7;
+}
+
+.header {
+    display: flex;
+    width: min(100vw, 500px);
+    height: 32px;
+    justify-content: space-between;
+}
+
+.header > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: rgba(167, 211, 34, 0.416);
+    color: rgb(56, 51, 206);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.header > button {
+    flex: 1;
+    background-color: rgba(0, 255, 221, 0.489);
+    color: rgb(56, 51, 206);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.header > button:hover {
+    background-color: rgb(0, 255, 221);
+}
+
+.result {
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    background-color: rgba(10, 238, 37, 0.553);
+    color: rgb(56, 51, 206);
+    width: min(100vw, 500px);
+    height: 32px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .gameBoard {
-    width: 500px;
-    height: 500px;
+    border: 1px solid black;
+    width: min(100vw, 500px);
+    aspect-ratio: 1 / 1;
     display: grid;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
 }
 
-div {
-    border: 1px solid black;
-}
-
 .gameBoard > div {
+    border: 1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .gameBoard > div > img {
-    width: 100px;
-}
-
-.result {
-    background-color: rgb(150, 255, 127);
-    width: 500px;
-    text-align: center;
-    font-size: 30px;
-    font-weight: 700;
-    border-radius: 8px;
-    margin-bottom: 0;
+    width: 70%;
 }

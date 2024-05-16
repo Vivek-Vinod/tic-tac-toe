@@ -8,8 +8,20 @@
     <script src="scripts/main.js" defer></script>
 </head>
 <body>
-    <p class="result">Tic tac toe</p>
-    <div class="gameBoard">
+    <div class="header">
+        <div>
+            <input type="radio" id="easy" name="level" value="easy" checked>
+            <label for="easy">Easy</label>
+
+            <input type="radio" id="medium" name="level" value="medium">
+            <label for="medium">Medium</label>
+
+            <input type="radio" id="hard" name="level" value="hard">
+            <label for="hard">Hard</label>
+        </div>
+        <button>Restart</button>
     </div>
+    <p class="result">Tic tac toe</p>
+    <div class="gameBoard"></div>
 </body>
 </html>
