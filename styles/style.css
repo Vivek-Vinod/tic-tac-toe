@@ -1,5 +1,6 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -25,4 +26,14 @@ div {
 
 .gameBoard > div > img {
     width: 100px;
+}
+
+.result {
+    background-color: rgb(150, 255, 127);
+    width: 500px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    border-radius: 8px;
+    margin-bottom: 0;
 }
