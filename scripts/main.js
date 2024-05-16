@@ -1,12 +1,16 @@
 const gameBoard = document.querySelector(".gameBoard");
 const result = document.querySelector(".result");
 const restartBtn = document.querySelector(".header > button");
+const radioBtns = document.querySelectorAll('.header input[type="radio"]');
 
 let player = "x";
 let gameTable = [];
 
 function initGame() {
     restartBtn.addEventListener("click", restartGame);
+    for (const radioBtn of radioBtns) {
+        radioBtn.addEventListener("change", restartGame);
+    }
     createBoard();
 }
 
