@@ -30,8 +30,13 @@ function makeMove(e) {
         marker.setAttribute("src", markerSrc);
         e.target.appendChild(marker);
         e.target.setAttribute("class", player);
-        if (isWin(player)) {
+        if (isWin()) {
             result.textContent = `${player} wins the game!`;
+            setGameOver();
+            return;
+        }
+        if (isDraw()) {
+            result.textContent = `Draw!`;
             setGameOver();
             return;
         }
@@ -39,8 +44,13 @@ function makeMove(e) {
 
         // make a random move by the computer
         makeRandomMove();
-        if (isWin(player)) {
+        if (isWin()) {
             result.textContent = `${player} wins the game!`;
+            setGameOver();
+            return;
+        }
+        if (isDraw()) {
+            result.textContent = `Draw!`;
             setGameOver();
             return;
         }
@@ -76,7 +86,7 @@ function makeRandomMove () {
     gameCell.setAttribute("class", player);
 } 
 
-function isWin(player) {
+function isWin() {
     for (let i = 0; i < 3; i++) {
         // check for win in row
         if (gameTable[i][0].getAttribute("class") === player && gameTable[i][1].getAttribute("class") === player && gameTable[i][2].getAttribute("class") === player) {
@@ -97,6 +107,18 @@ function isWin(player) {
     }
 
     return false;
+}
+
+function isDraw() {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (gameTable[i][j].getAttribute("class") === "empty") {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 function changePlayer() {
