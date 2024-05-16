@@ -1,25 +1,42 @@
 const gameBoard = document.querySelector(".gameBoard");
-const gameTable = [];
 const result = document.querySelector(".result");
-player = "x";
+const restartBtn = document.querySelector(".header > button");
 
-for (let i = 0; i < 3; i++) {
-    const gameRow = [];
-    for (let j = 0; j < 3; j++) {
-        const gameCell = document.createElement("div");
-        gameCell.setAttribute("class", "empty");
-        gameBoard.appendChild(gameCell);
-        gameRow.push(gameCell);
-    }
-    gameTable.push(gameRow);
+let player = "x";
+let gameTable = [];
+
+function initGame() {
+    restartBtn.addEventListener("click", restartGame);
+    createBoard();
 }
 
-function main() {
+function createBoard() {
+    for (let i = 0; i < 3; i++) {
+        const gameRow = [];
+        for (let j = 0; j < 3; j++) {
+            const gameCell = document.createElement("div");
+            gameCell.setAttribute("class", "empty");
+            gameBoard.appendChild(gameCell);
+            gameRow.push(gameCell);
+        }
+        gameTable.push(gameRow);
+    }
     for (const gameRow of gameTable) {
         for (const gameCell of gameRow) {
             gameCell.addEventListener("click", makeMove);
         }
     }
+}
+
+function restartGame() {
+    for (const gameRow of gameTable) {
+        for (const gameCell of gameRow) {
+            gameBoard.removeChild(gameCell);
+        }
+    }
+    player = "x";
+    gameTable = [];
+    createBoard();
 }
 
 function makeMove(e) {
@@ -133,4 +150,4 @@ function getMarkerSrc() {
     return (player === "x")? "images/x.png": "images/o.png";
 }
 
-main();
+initGame();
