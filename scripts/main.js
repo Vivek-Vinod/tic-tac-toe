@@ -1,6 +1,7 @@
 const gameBoard = document.querySelector(".gameBoard");
 const gameTable = [];
 const result = document.querySelector(".result");
+player = "x";
 
 for (let i = 0; i < 3; i++) {
     const gameRow = [];
@@ -14,33 +15,48 @@ for (let i = 0; i < 3; i++) {
 }
 
 function main() {
-    player = "x";
     for (const gameRow of gameTable) {
         for (const gameCell of gameRow) {
-            gameCell.addEventListener("click", (e) => {
-                if (e.target.getAttribute("class") === "empty") {
-                    // make player move
-                    const marker = document.createElement("img");
-                    const markerSrc = getMarkerSrc(player);
-                    marker.setAttribute("src", markerSrc);
-                    gameCell.appendChild(marker);
-                    e.target.setAttribute("class", player);
-                    if (isWin(player)) {
-                        result.textContent = `${player} wins the game!`;
-                        return;
-                    }
-                    player = changePlayer(player);
-
-                    // make a random move by the computer
-                    makeRandomMove(player);
-                    player = changePlayer(player);
-                }
-            });
+            gameCell.addEventListener("click", makeMove);
         }
     }
 }
 
-function makeRandomMove (player) {
+function makeMove(e) {
+    if (e.target.getAttribute("class") === "empty") {
+        // make player move
+        const marker = document.createElement("img");
+        const markerSrc = getMarkerSrc();
+        marker.setAttribute("src", markerSrc);
+        e.target.appendChild(marker);
+        e.target.setAttribute("class", player);
+        if (isWin(player)) {
+            result.textContent = `${player} wins the game!`;
+            setGameOver();
+            return;
+        }
+        changePlayer();
+
+        // make a random move by the computer
+        makeRandomMove();
+        if (isWin(player)) {
+            result.textContent = `${player} wins the game!`;
+            setGameOver();
+            return;
+        }
+        changePlayer();
+    }
+}
+
+function setGameOver() {
+    for (const gameRow of gameTable) {
+        for (const gameCell of gameRow) {
+            gameCell.removeEventListener("click", makeMove);
+        }
+    }
+}
+
+function makeRandomMove () {
     // make an array of empty cells
     const emptyCells = [];
     for (let i = 0; i < 3; i++) {
@@ -50,19 +66,14 @@ function makeRandomMove (player) {
             }
         }
     }
-    console.log(emptyCells);
     // choose a random cell from empty cells
     const rndNum = Math.floor(Math.random() * emptyCells.length);
-    console.log(rndNum);
     const gameCell = emptyCells[rndNum];
     const marker = document.createElement("img");
-    const markerSrc = getMarkerSrc(player);
+    const markerSrc = getMarkerSrc();
     marker.setAttribute("src", markerSrc);
     gameCell.appendChild(marker);
     gameCell.setAttribute("class", player);
-    if (isWin(player)) {
-        result.textContent = `${player} wins the game!`;
-    }
 } 
 
 function isWin(player) {
@@ -88,11 +99,15 @@ function isWin(player) {
     return false;
 }
 
-function changePlayer(player) {
-    return (player === "x")? "o": "x";
+function changePlayer() {
+    if (player === "x") {
+        player = "o";
+    } else {
+        player = "x";
+    }
 }
 
-function getMarkerSrc(player) {
+function getMarkerSrc() {
     return (player === "x")? "images/x.png": "images/o.png";
 }
 
