@@ -123,6 +123,7 @@ function makeHardMove() {
     // let current player be the max player
     let bestMove = [-1, -1];
     let bestScore = -Infinity;
+    outerLoop:
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
             if (gameTable[i][j].getAttribute("class") === "empty") {
@@ -132,7 +133,8 @@ function makeHardMove() {
                 // evaluate
                 let score;
                 if (isWin()) {
-                    score = 1;
+                    bestMove = [i, j];
+                    break outerLoop;
                 } else if (isDraw()) {
                     score = 0
                 } else {
