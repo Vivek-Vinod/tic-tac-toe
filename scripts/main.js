@@ -16,7 +16,7 @@ function initGame() {
             if (level === "easy") {
                 computerMoveFunction = makeRandomMove;
             } else if (level === "medium") {
-                computerMoveFunction = makeRandomMove;
+                computerMoveFunction = makeMediumMove;
             } else if (level === "hard") {
                 computerMoveFunction = makeHardMove;
             } else {
@@ -205,6 +205,14 @@ function miniMax(isMaxPlayer) {
             }
         }
         return bestScore;
+    }
+}
+
+function makeMediumMove() {
+    if (Math.floor(Math.random() * 1000) < 500) {
+        makeRandomMove();
+    } else {
+        makeHardMove();
     }
 }
 
