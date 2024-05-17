@@ -58,7 +58,7 @@ function restartGame() {
     createBoard();
 }
 
-function makeMove(e) {
+async function makeMove(e) {
     if (e.target.getAttribute("class") === "empty") {
         // make player move
         const marker = document.createElement("img");
@@ -78,6 +78,8 @@ function makeMove(e) {
         }
         changePlayer();
 
+        // wait 300 ms
+        await new Promise(r => setTimeout(r, 300));
         // make a move by the computer
         computerMoveFunction();
         if (isWin()) {
