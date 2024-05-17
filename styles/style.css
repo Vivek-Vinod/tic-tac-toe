@@ -30,6 +30,7 @@ body {
     color: rgb(56, 51, 206);
     font-weight: 700;
     font-size: 16px;
+    border-radius: 16px;
 }
 
 .header > button:hover {

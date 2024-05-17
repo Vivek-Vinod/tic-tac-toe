@@ -4,12 +4,26 @@ const restartBtn = document.querySelector(".header > button");
 const radioBtns = document.querySelectorAll('.header input[type="radio"]');
 
 let player = "x";
+let level = "easy";
+let computerMoveFunction = makeRandomMove;
 let gameTable = [];
 
 function initGame() {
     restartBtn.addEventListener("click", restartGame);
     for (const radioBtn of radioBtns) {
-        radioBtn.addEventListener("change", restartGame);
+        radioBtn.addEventListener("change", (e) => {
+            level = e.target.value;
+            if (level === "easy") {
+                computerMoveFunction = makeRandomMove;
+            } else if (level === "medium") {
+                computerMoveFunction = makeRandomMove;
+            } else if (level === "hard") {
+                computerMoveFunction = makeHardMove;
+            } else {
+                computerMoveFunction = makeRandomMove;
+            }
+            restartGame();
+        });
     }
     createBoard();
 }
@@ -38,6 +52,7 @@ function restartGame() {
             gameBoard.removeChild(gameCell);
         }
     }
+    result.textContent = "Tic tac toe";
     player = "x";
     gameTable = [];
     createBoard();
@@ -63,8 +78,8 @@ function makeMove(e) {
         }
         changePlayer();
 
-        // make a random move by the computer
-        makeRandomMove();
+        // make a move by the computer
+        computerMoveFunction();
         if (isWin()) {
             result.textContent = "Computer wins the game!";
             setGameOver();
@@ -87,7 +102,113 @@ function setGameOver() {
     }
 }
 
-function makeRandomMove () {
+function makeHardMove() {
+    // implemented using minimax algorithm
+    // let current player be the max player
+    let bestMove = [-1, -1];
+    let bestScore = -Infinity;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (gameTable[i][j].getAttribute("class") === "empty") {
+                // make move
+                gameTable[i][j].setAttribute("class", player);
+
+                // evaluate
+                let score;
+                if (isWin()) {
+                    score = 1;
+                } else if (isDraw()) {
+                    score = 0
+                } else {
+                    // call minimax with the min player
+                    changePlayer();
+                    score = miniMax(false);
+                    changePlayer();
+                }
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = [i, j];
+                }
+
+                // undo move
+                gameTable[i][j].setAttribute("class", "empty");
+            }
+        }
+    }
+    // make the best move
+    const gameCell = gameTable[bestMove[0]][bestMove[1]];
+    const marker = document.createElement("img");
+    const markerSrc = getMarkerSrc();
+    marker.setAttribute("src", markerSrc);
+    gameCell.appendChild(marker);
+    gameCell.setAttribute("class", player);
+}
+
+function miniMax(isMaxPlayer) {
+    if (isMaxPlayer) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (gameTable[i][j].getAttribute("class") === "empty") {
+                    // make move
+                    gameTable[i][j].setAttribute("class", player);
+    
+                    // evaluate
+                    let score;
+                    if (isWin()) {
+                        score = 1;
+                    } else if (isDraw()) {
+                        score = 0
+                    } else {
+                        // call minimax with the min player
+                        changePlayer();
+                        score = miniMax(false);
+                        changePlayer();
+                    }
+                    if (score > bestScore) {
+                        bestScore = score;
+                    }
+    
+                    // undo move
+                    gameTable[i][j].setAttribute("class", "empty");
+                }
+            }
+        }
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (gameTable[i][j].getAttribute("class") === "empty") {
+                    // make move
+                    gameTable[i][j].setAttribute("class", player);
+    
+                    // evaluate
+                    let score;
+                    if (isWin()) {
+                        score = -1;
+                    } else if (isDraw()) {
+                        score = 0
+                    } else {
+                        // call minimax with the min player
+                        changePlayer();
+                        score = miniMax(true);
+                        changePlayer();
+                    }
+                    if (score < bestScore) {
+                        bestScore = score;
+                    }
+    
+                    // undo move
+                    gameTable[i][j].setAttribute("class", "empty");
+                }
+            }
+        }
+        return bestScore;
+    }
+}
+
+function makeRandomMove() {
     // make an array of empty cells
     const emptyCells = [];
     for (let i = 0; i < 3; i++) {
