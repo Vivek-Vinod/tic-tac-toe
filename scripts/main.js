@@ -140,7 +140,7 @@ function makeHardMove() {
                 } else {
                     // call minimax with the min player
                     changePlayer();
-                    score = miniMax(false);
+                    score = miniMax(false, -Infinity, Infinity);
                     changePlayer();
                 }
                 if (score > bestScore) {
@@ -162,9 +162,10 @@ function makeHardMove() {
     gameCell.setAttribute("class", player);
 }
 
-function miniMax(isMaxPlayer) {
+function miniMax(isMaxPlayer, alpha, beta) {
     if (isMaxPlayer) {
         let bestScore = -Infinity;
+        outerLoop1:
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (gameTable[i][j].getAttribute("class") === "empty") {
@@ -180,21 +181,28 @@ function miniMax(isMaxPlayer) {
                     } else {
                         // call minimax with the min player
                         changePlayer();
-                        score = miniMax(false);
+                        score = miniMax(false, alpha, beta);
                         changePlayer();
                     }
                     if (score > bestScore) {
                         bestScore = score;
                     }
+                    if (bestScore > alpha) {
+                        alpha = bestScore;
+                    }
 
                     // undo move
                     gameTable[i][j].setAttribute("class", "empty");
+                    if (bestScore >= beta) {
+                        break outerLoop1;
+                    }
                 }
             }
         }
         return bestScore;
     } else {
         let bestScore = Infinity;
+        outerLoop2:
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (gameTable[i][j].getAttribute("class") === "empty") {
@@ -216,9 +224,16 @@ function miniMax(isMaxPlayer) {
                     if (score < bestScore) {
                         bestScore = score;
                     }
+                    if (bestScore < beta) {
+                        beta = bestScore;
+                    }
 
                     // undo move
                     gameTable[i][j].setAttribute("class", "empty");
+
+                    if (bestScore <= alpha) {
+                        break outerLoop2;
+                    }
                 }
             }
         }
