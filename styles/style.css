@@ -5,6 +5,29 @@ body {
     background-color: #DCFFB7;
 }
 
+.playerSelect {
+    display: flex;
+    width: min(100vw, 500px);
+    height: 32px;
+    justify-content: space-between;
+}
+
+.playerSelect > button {
+    flex: 1;
+    background-color: rgba(0, 255, 221, 0.489);
+    color: rgb(56, 51, 206);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.playerSelect > button:hover {
+    background-color: rgb(0, 255, 221);
+}
+
+.playerSelect > button:active {
+    background-color: rgb(174, 236, 180);
+}
+
 .header {
     display: flex;
     gap: 4px;

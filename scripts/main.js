@@ -2,6 +2,7 @@ const gameBoard = document.querySelector(".gameBoard");
 const result = document.querySelector(".result");
 const restartBtn = document.querySelector(".header > button");
 const radioBtns = document.querySelectorAll('.header input[type="radio"]');
+const playerSelectBtns = document.querySelectorAll(".playerSelect > button");
 
 let player = "x";
 let level = "easy";
@@ -25,7 +26,22 @@ function initGame() {
             restartGame();
         });
     }
+    for (const playerSelectBtn of playerSelectBtns) {
+        playerSelectBtn.addEventListener("click", (e) => {
+            if (e.target.textContent === "Play first") {
+                restartGame();
+            } else {
+                restartGame();
+                computerMoveFunction();
+                changePlayer();
+            }
+        });
+    }
     createBoard();
+    if (Math.floor(Math.random() * 1000) < 500) {
+        computerMoveFunction();
+        changePlayer();
+    }
 }
 
 function createBoard() {
@@ -154,7 +170,7 @@ function miniMax(isMaxPlayer) {
                 if (gameTable[i][j].getAttribute("class") === "empty") {
                     // make move
                     gameTable[i][j].setAttribute("class", player);
-    
+
                     // evaluate
                     let score;
                     if (isWin()) {
@@ -170,7 +186,7 @@ function miniMax(isMaxPlayer) {
                     if (score > bestScore) {
                         bestScore = score;
                     }
-    
+
                     // undo move
                     gameTable[i][j].setAttribute("class", "empty");
                 }
@@ -184,7 +200,7 @@ function miniMax(isMaxPlayer) {
                 if (gameTable[i][j].getAttribute("class") === "empty") {
                     // make move
                     gameTable[i][j].setAttribute("class", player);
-    
+
                     // evaluate
                     let score;
                     if (isWin()) {
@@ -200,7 +216,7 @@ function miniMax(isMaxPlayer) {
                     if (score < bestScore) {
                         bestScore = score;
                     }
-    
+
                     // undo move
                     gameTable[i][j].setAttribute("class", "empty");
                 }
@@ -236,7 +252,7 @@ function makeRandomMove() {
     marker.setAttribute("src", markerSrc);
     gameCell.appendChild(marker);
     gameCell.setAttribute("class", player);
-} 
+}
 
 function isWin() {
     for (let i = 0; i < 3; i++) {
@@ -282,7 +298,7 @@ function changePlayer() {
 }
 
 function getMarkerSrc() {
-    return (player === "x")? "images/x.png": "images/o.png";
+    return (player === "x") ? "images/x.png" : "images/o.png";
 }
 
 initGame();
