@@ -5,8 +5,8 @@ const radioBtns = document.querySelectorAll('.header input[type="radio"]');
 const playerSelectBtns = document.querySelectorAll(".playerSelect > button");
 
 let player = "x";
-let level = "easy";
-let computerMoveFunction = makeRandomMove;
+let level = "hard";
+let computerMoveFunction = makeHardMove;
 let gameTable = [];
 
 function initGame() {
@@ -38,10 +38,8 @@ function initGame() {
         });
     }
     createBoard();
-    if (Math.floor(Math.random() * 1000) < 500) {
-        computerMoveFunction();
-        changePlayer();
-    }
+    computerMoveFunction();
+    changePlayer();
 }
 
 function createBoard() {
